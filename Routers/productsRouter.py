@@ -24,7 +24,7 @@ def post_product():
         product_keys = ['name', 'price', 'quantity', 'category_id', 'img_url']
         for key in product_keys:
             if key not in body:
-                return jsonify({"success": False, "message": f'{key} missing from body'}), 500
+                return jsonify({"success": False, "message": f'{key} missing from body'}), 400
         if 'id' in body:
             del body['id']
         
@@ -62,7 +62,7 @@ def put_product(id):
         product_keys = ['name', 'price', 'quantity', 'category_id', 'img_url']
         for key in product_keys:
             if key not in body:
-                return jsonify({"success": False, "message": f'{key} missing from body'}), 500
+                return jsonify({"success": False, "message": f'{key} missing from body'}), 400
             
         if 'id' in body:
             del body['id']
