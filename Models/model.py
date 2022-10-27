@@ -2,8 +2,36 @@ from settings import app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 import json
+from passlib.apps import custom_app_context as pwd_context
 
 db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(32), index = True)
+    password_hash = db.Column(db.String(128))
+    
+    def as_dict(self):
+        return self.username
+    
+    def get_user_by_username(username):
+        return User.query.filter_by(username=username).first()
+    
+    def hash_password(self, password):
+        self.password_hash = pwd_context.encrypt(password)
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password_hash)
+    
+    def add_user(username, password):
+        user = User(username = username)
+        user.hash_password(password)
+        db.session.add(user)
+        db.session.commit()
+        return user
+
 
 class Category(db.Model):
     __tablename__ = 'category'

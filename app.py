@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
 from Routers.productsRouter import products_Blueprint
 from Routers.categoriesRouter import categories_Blueprint
+from Routers.usersRouter import users_Blueprint
 from settings import *
 
 app.register_blueprint(products_Blueprint)
 app.register_blueprint(categories_Blueprint)
+app.register_blueprint(users_Blueprint)
 
 @app.route("/", methods=['GET'])
 def status():
