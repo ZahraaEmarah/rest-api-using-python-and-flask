@@ -79,12 +79,13 @@ class Product(db.Model):
         
     def replace_product(_id, _name, _price, _quantity, _img_url, _category_id):
         product_to_replace = Product.query.filter_by(id=_id).first()
-        product_to_replace.name = _name
-        product_to_replace.price = _price
-        product_to_replace.quantity = _quantity
-        product_to_replace.img_url = _img_url
-        product_to_replace.cateogry_id = _category_id
-        db.session.commit()
+        if product_to_replace:
+            product_to_replace.name = _name
+            product_to_replace.price = _price
+            product_to_replace.quantity = _quantity
+            product_to_replace.img_url = _img_url
+            product_to_replace.cateogry_id = _category_id
+            db.session.commit()
         return product_to_replace
         
     def delete_product(_id):
